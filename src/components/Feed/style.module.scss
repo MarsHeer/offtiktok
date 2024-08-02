@@ -1,0 +1,26 @@
+.Feed {
+    grid-auto-rows: 100%;
+    scrollbar-width: 0px;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.ShowNext {
+    animation: jumpUpAndDown 500ms 2 ease-in-out;
+
+    @keyframes jumpUpAndDown {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5%);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+}

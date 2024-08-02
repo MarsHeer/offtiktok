@@ -1,0 +1,48 @@
+.Container {
+    -webkit-user-select: none;
+
+
+}
+
+.Video {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+    pointer-events: none;
+
+    svg {
+        transform: scale(0);
+        transition: transform 250ms ease-in-out;
+    }
+}
+
+.Paused {
+    opacity: .5;
+
+    svg {
+        transform: scale(1);
+    }
+}
+
+
+.Timeline {
+    &.Paused {
+        pointer-events: none;
+    }
+
+    &Progress {
+        transition: height 100ms ease-in-out;
+    }
+}
+
+.Desc {
+    height: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+
+    &Expanded {
+        height: auto;
+        white-space: normal;
+    }
+}

@@ -1,0 +1,39 @@
+.Input {
+    background-color: transparent;
+    overflow: hidden;
+
+    &Holder {
+
+        background-color: #EEEEEE;
+        border-bottom-color: #D3D3D3;
+    }
+}
+
+.Divider {
+    height: 1px;
+    background-color: #EEEEEE;
+}
+
+.Underline {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: .4rem;
+        right: -.4rem;
+        height: 1px;
+        background-color: #222222;
+    }
+}
+
+.Carousel {
+    grid-auto-columns: 100%;
+    scrollbar-width: 0px;
+    aspect-ratio: 9/16;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
