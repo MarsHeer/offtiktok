@@ -265,7 +265,7 @@ export const Carousel: FC<Props> = ({
           <Image alt="Share video" fill src="/share.png" objectFit="contain" />
         </a>
       </div>
-      <div className="flex flex-col items-start z-50 absolute bottom-5 left-5 right-20">
+      <div className="flex flex-col items-start z-40 absolute bottom-5 left-5 right-20">
         <p className="seasons text-white text-xs text-left mb-1.5">
           From{' '}
           <a className="underline" href={`https://tiktok.com/@${handle}`}>

@@ -4,6 +4,7 @@ import { FC, TouchEventHandler, useCallback, useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import Image from 'next/image';
 import Hls from 'hls.js';
+import { PostOptions } from '../PostOptions';
 
 type Props = {
   mp4URL: string;
@@ -59,8 +60,7 @@ export const VideoPlayer: FC<Props> = ({
 
   const [touchPos, setTouchpos] = useState(-999);
 
-  const [alert, setAlert] = useState<string | undefined>();
-  const [clipboardAlert, setClipboardAlert] = useState<boolean | undefined>();
+  const [alert, setAlert] = useState<string | undefined>('');
 
   const onTouchmove: TouchEventHandler<HTMLElement> = useCallback(
     (e) => {
@@ -165,67 +165,6 @@ export const VideoPlayer: FC<Props> = ({
     }
   }, [videoEl, mp4URL, hlsURL]);
 
-  const downloadVideo = useCallback(
-    async (e: React.SyntheticEvent<HTMLElement>) => {
-      if (e instanceof KeyboardEvent && e.key !== 'Enter') {
-        return;
-      }
-      try {
-        const response = await fetch(mp4URL);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = 'video.mp4'; // The name of the downloaded file
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
-    },
-    [mp4URL]
-  );
-
-  const shareVideo = useCallback(
-    async (e: React.SyntheticEvent<HTMLElement>) => {
-      if (
-        (e instanceof KeyboardEvent && e.key !== 'Enter') ||
-        typeof window == 'undefined'
-      ) {
-        return;
-      }
-
-      const copyURL = () => {
-        navigator.clipboard.writeText(window.location.toString());
-        setClipboardAlert(true);
-        setAlert('Link copied to clipboard');
-        setTimeout(() => {
-          setClipboardAlert(false);
-        }, 2000);
-      };
-
-      try {
-        if (navigator.share) {
-          await navigator.share({
-            title: 'Check out this video!',
-            text: 'I found this video and thought you might like it!',
-            url: window.location.toString(),
-          });
-        } else {
-          copyURL();
-        }
-      } catch (error) {
-        setAlert("Couldn't share video");
-      }
-    },
-    []
-  );
-
   useEffect(() => {
     if (!videoEl || !feedEl) return;
 
@@ -253,14 +192,17 @@ export const VideoPlayer: FC<Props> = ({
     };
   }, [feedEl, videoEl, postId]);
 
+  const [openFc, setOpenFc] = useState<() => void>(() => () => {});
+  const [closeFc, setCloseFc] = useState<() => void>(() => () => {});
+
   return (
     <div className={clsx('relative max-h-dvh w-full', styles.Container)}>
       <div
         className={clsx(
           'absolute left-0 w-full top-4 z-50 flex justify-center animate-once animate-duration-200 animate-ease-in opacity-0',
           {
-            ['animate-fade-left']: clipboardAlert,
-            ['animate-fade-right animate-reverse ']: clipboardAlert === false,
+            ['animate-fade-left']: alert,
+            ['animate-fade-right animate-reverse ']: alert === '',
           }
         )}
       >
@@ -328,38 +270,16 @@ export const VideoPlayer: FC<Props> = ({
       </div>
       <a
         href={`https://tiktok.com/@${handle}`}
-        className="absolute bottom-5 right-5 rounded-full overflow-hidden z-50 border-white border-2"
+        className="absolute bottom-16 right-5 rounded-full overflow-hidden z-50 border-white border-2"
       >
         <div className="relative w-10 h-10">
           <Image alt="Profile picture" fill src={profilePic} />
         </div>
       </a>
-      <div className="absolute bottom-20 right-7 flex flex-col gap-3">
-        <a
-          role="button"
-          tabIndex={0}
-          onClick={shareVideo}
-          onKeyDown={shareVideo}
-          className="relative w-6 h-6  overflow-hidden z-50 opacity-75"
-        >
-          <Image alt="Share video" fill src="/share.png" objectFit="contain" />
-        </a>
-        <a
-          tabIndex={0}
-          role="button"
-          onClick={downloadVideo}
-          onKeyDown={downloadVideo}
-          className="relative w-6 h-6 overflow-hidden z-50 opacity-75"
-        >
-          <Image
-            alt="Download video"
-            fill
-            src="/download.png"
-            objectFit="contain"
-          />
-        </a>
-      </div>
-      <div className="flex flex-col items-start z-50 absolute bottom-5 left-5 right-20">
+      <a className="absolute bottom-5 right-6 z-50">
+        <PostOptions setAlert={setAlert} downloadURL={mp4URL} />
+      </a>
+      <div className="flex flex-col items-start z-40 absolute bottom-5 left-5 right-20">
         <p className="seasons text-white text-xs text-left mb-1.5">
           From{' '}
           <a className="underline" href={`https://tiktok.com/@${handle}`}>
