@@ -10,7 +10,14 @@ It also includes a minimalistic TikTok feed that allows watching videos recommen
 
 ### 1. Install Node & npm (or your package manager of preference)
 
-#### macOS
+### Using Docker
+
+    - Initialize as a docker container running `./docker-up.sh`
+    - If script fails due to permissions settings, run `chmod +x ./docker-up.sh` then run the script again.
+
+### On your own machine
+
+##### macOS
 
 1.  **Using Homebrew**:
 
@@ -19,7 +26,7 @@ It also includes a minimalistic TikTok feed that allows watching videos recommen
 
     - Install Node.js and npm:
       `brew  install  node`
-          brew  install  node
+      brew install node
 
 2.  **Using Node Version Manager (nvm)**:
 
@@ -39,7 +46,7 @@ It also includes a minimalistic TikTok feed that allows watching videos recommen
 
       `nvm  install  node`
 
-#### Linux
+##### Linux
 
 1.  **Using NodeSource Binaries**:
 
@@ -68,7 +75,7 @@ It also includes a minimalistic TikTok feed that allows watching videos recommen
 
       `nvm  install  node`
 
-#### Windows
+##### Windows
 
 1.  **Using Node.js Installer**:
 
@@ -92,11 +99,11 @@ node  -v
 npm  -v
 ```
 
-### 2. Install dependencies
+#### 2. Install dependencies
 
 To instal project dependencies, run: `npm install`
 
-### 3. Configure your .env
+#### 3. Configure your .env
 
 Create a `.env` file and copy the contets of the `.env.template` file included in the repository.
 
@@ -104,7 +111,7 @@ The INTERNAL API URL should just be the frontend's URL
 
 The EXTERNAL API URL should be your backend's URL
 
-### 4. Ready for dev!
+#### 4. Ready for dev!
 
 Run `npm run dev` to get your development server running in port `2000`
 
@@ -125,11 +132,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 # Collaborating
 
-Collaborations are welcome! Please feel free to support the project by creating requests or pull requests
+Collaboration is welcome! Please feel free to support the project by opening issues or pull requests
 
 # License
 

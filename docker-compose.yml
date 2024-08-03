@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      NEXT_INTERNAL_API_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:2000
+      GA_TRACING_ID: G-Y2K66L945V
