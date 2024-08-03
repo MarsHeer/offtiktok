@@ -5,6 +5,7 @@ import { FC, UIEventHandler, useCallback, useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import gsap from 'gsap';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import { PostOptions } from '../PostOptions';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -74,41 +75,6 @@ export const Carousel: FC<Props> = ({
       gsap.to(crsl, { scrollTo: { x: scroll }, duration: 0.5 });
     }
   };
-
-  const shareVideo = useCallback(
-    async (e: React.SyntheticEvent<HTMLElement>) => {
-      if (
-        (e instanceof KeyboardEvent && e.key !== 'Enter') ||
-        typeof window == 'undefined'
-      ) {
-        return;
-      }
-
-      const copyURL = () => {
-        navigator.clipboard.writeText(window.location.toString());
-        setClipboardAlert(true);
-        setAlert('Link copied to clipboard');
-        setTimeout(() => {
-          setClipboardAlert(false);
-        }, 2000);
-      };
-
-      try {
-        if (navigator.share) {
-          await navigator.share({
-            title: 'Check out this video!',
-            text: 'I found this video and thought you might like it!',
-            url: window.location.toString(),
-          });
-        } else {
-          copyURL();
-        }
-      } catch (error) {
-        setAlert("Couldn't share video");
-      }
-    },
-    []
-  );
 
   const [wrapperEl, setWrapperEl] = useState<HTMLElement | null>(null);
 
@@ -248,23 +214,16 @@ export const Carousel: FC<Props> = ({
       </div>
       <a
         href={`https://tiktok.com/@${handle}`}
-        className="absolute bottom-5 right-5 rounded-full overflow-hidden z-50 border-white border-2"
+        className="absolute bottom-16 right-5 rounded-full overflow-hidden z-50 border-white border-2"
       >
         <div className="relative w-10 h-10">
           <Image alt="Profile picture" fill src={profilePic} />
         </div>
       </a>
-      <div className="absolute bottom-20 right-7 flex flex-col gap-3">
-        <a
-          role="button"
-          tabIndex={0}
-          onClick={shareVideo}
-          onKeyDown={shareVideo}
-          className="relative w-6 h-6  overflow-hidden z-50 opacity-75"
-        >
-          <Image alt="Share video" fill src="/share.png" objectFit="contain" />
-        </a>
-      </div>
+      <a className="absolute bottom-5 right-6 z-50">
+        <PostOptions setAlert={setAlert} />
+      </a>
+
       <div className="flex flex-col items-start z-40 absolute bottom-5 left-5 right-20">
         <p className="seasons text-white text-xs text-left mb-1.5">
           From{' '}
