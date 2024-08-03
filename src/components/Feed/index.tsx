@@ -24,6 +24,7 @@ export const Feed: FC<Props> = ({ rootPost, token }) => {
   const [feedEl, setFeedEl] = useState<HTMLDivElement | null>(null);
   const [sessionToken, setSessionToken] = useState<string | undefined>(token);
   const [nextLoaded, setNextLoaded] = useState(false);
+  const [shownAnim, setShownAnim] = useState(true);
   const [fetching, setFetching] = useState(false);
   useEffect(() => {
     // Check if sessiontoken cookie exists in document
@@ -77,6 +78,10 @@ export const Feed: FC<Props> = ({ rootPost, token }) => {
           });
           if (!nextLoaded) {
             setNextLoaded(true);
+
+            setTimeout(() => {
+              setShownAnim(false);
+            }, 1200);
           }
         } else {
           console.error('Failed to parse post data:', parsedData.error);
@@ -139,7 +144,7 @@ export const Feed: FC<Props> = ({ rootPost, token }) => {
         <div
           key={post.id}
           className={clsx('flex relative w-full h-full snap-start', {
-            [styles.ShowNext]: nextLoaded,
+            [styles.ShowNext]: nextLoaded && shownAnim,
           })}
         >
           {post.video ? (
