@@ -153,7 +153,7 @@ export const HomePage = () => {
         Get the shortcut
       </button>
       <p className="text-xs">
-        Shorcut by{' '}
+        Shortcut by{' '}
         <a className="underline" href="https://m.twitch.tv/codelytv">
           CodelyTV
         </a>{' '}
