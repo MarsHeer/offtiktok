@@ -1,4 +1,6 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
+  staticPageGenerationTimeout: 1000 * 60 * 5, // 5 minutes
   images: {
     remotePatterns: [
       {
@@ -11,7 +13,7 @@ const nextConfig = {
   },
   redirects: async () => {
     return [
-      // Redirect rule for subdomains
+      // General redirect rule
       {
         source: '/:path*',
         has: [
@@ -26,11 +28,12 @@ const nextConfig = {
             : 'http://localhost:3000'
         }/sd/:subdomain/:path*`,
         permanent: false,
-      },
-      // Redirect rule for the main domain
-      {
-        source: '/:path*',
-        has: [
+        // Add a condition to exclude the destination domain
+        missing: [
+          {
+            type: 'query',
+            key: 'id',
+          },
           {
             type: 'host',
             value: 'offtiktok.com',
@@ -40,12 +43,6 @@ const nextConfig = {
             value: 'www.offtiktok.com',
           },
         ],
-        destination: `${
-          process.env.NODE_ENV === 'production'
-            ? 'https://www.offtiktok.com'
-            : 'http://localhost:3000'
-        }/:path*`,
-        permanent: false,
       },
     ];
   },
