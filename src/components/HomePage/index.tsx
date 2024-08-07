@@ -167,7 +167,7 @@ export const HomePage = () => {
         }}
         className="fixed inset-0 transition-opacity bg-black/50 flex items-center justify-center p-5"
       >
-        <div className="bg-white rounded-lg w-full p-5 flex flex-col">
+        <div className="bg-white rounded-lg w-full p-5 flex flex-col max-h-full">
           <div
             className={clsx(
               'border-2 border-gray-200 grid grid-flow-col snap-x snap-mandatory overflow-scroll w-full rounded-2xl',

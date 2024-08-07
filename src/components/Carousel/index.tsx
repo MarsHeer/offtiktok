@@ -203,10 +203,14 @@ export const Carousel: FC<Props> = ({
       >
         {images?.map((img, idx) => (
           <div key={idx} className={clsx('relative bg-black', styles.Slide)}>
-            <Image
+            <img
+              style={{
+                position: 'absolute',
+                inset: 0,
+                objectFit: 'contain',
+                objectPosition: 'center',
+              }}
               src={img}
-              layout="fill"
-              objectFit="contain"
               alt="Carousel image"
             />
           </div>
@@ -217,7 +221,15 @@ export const Carousel: FC<Props> = ({
         className="absolute bottom-16 right-5 rounded-full overflow-hidden z-50 border-white border-2"
       >
         <div className="relative w-10 h-10">
-          <Image alt="Profile picture" fill src={profilePic} />
+          <img
+            style={{
+              position: 'absolute',
+              inset: 0,
+              objectFit: 'cover',
+            }}
+            alt="Profile picture"
+            src={profilePic}
+          />
         </div>
       </a>
       <a className="absolute bottom-5 right-6 z-50">

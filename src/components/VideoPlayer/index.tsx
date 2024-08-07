@@ -273,7 +273,16 @@ export const VideoPlayer: FC<Props> = ({
         className="absolute bottom-16 right-5 rounded-full overflow-hidden z-50 border-white border-2"
       >
         <div className="relative w-10 h-10">
-          <Image alt="Profile picture" fill src={profilePic} />
+          <img
+            style={{
+              position: 'absolute',
+              inset: 0,
+              objectFit: 'contain',
+              objectPosition: 'center',
+            }}
+            alt="Profile picture"
+            src={profilePic}
+          />
         </div>
       </a>
       <a className="absolute bottom-5 right-6 z-50">
