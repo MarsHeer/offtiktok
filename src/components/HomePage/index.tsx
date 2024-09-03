@@ -133,15 +133,6 @@ export const HomePage = () => {
           Start Watching
         </button>
       </div>
-      <p className="seasons text-md w-full text-center mb-2">
-        If you like this project, consider supporting it
-      </p>
-      <a
-        href="https://patreon.com/off_tiktok"
-        className="articulat text-slate-700 font-semibold bg-gradient-to-t text-center from-amber-300 to-amber-200 border-amber-200 border-2 py-2 w-full rounded-full mb-10"
-      >
-        Sponsor on Patreon
-      </a>
 
       <p className="seasons text-md w-full text-center mb-2">
         Sharing on iOS made easy
