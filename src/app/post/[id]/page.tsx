@@ -52,15 +52,33 @@ export async function generateMetadata(
     if (data && ('video' in data || 'carousel' in data) && 'author' in data) {
       const image =
         data?.video?.thumbnail || data?.carousel?.images.split(',')[0];
+      const video = data?.video?.mp4URL;
 
       return {
         title: `Watch ${data?.author.name}'s video off TikTok`,
         description: data?.postDescription || undefined,
-        openGraph: image
-          ? {
-              images: [`${process.env.NEXT_PUBLIC_API_URL}${image}`],
-            }
-          : undefined,
+        openGraph: {
+          siteName: 'OffTikTok',
+          title: `Watch ${data?.author.name}'s video off TikTok`,
+          description: data?.postDescription || undefined,
+          locale: 'en_US',
+          url: `https://offtiktok.com/post/${params.id}`,
+          type: 'video.other',
+          images: image
+            ? [`${process.env.NEXT_PUBLIC_API_URL}${image}`]
+            : undefined,
+          videos: video
+            ? [
+                {
+                  url: `${process.env.NEXT_PUBLIC_API_URL}${video}`,
+                  secureUrl: `${process.env.NEXT_PUBLIC_API_URL}${video}`,
+                  width: 1080,
+                  height: 1920,
+                  type: 'video/mp4',
+                },
+              ]
+            : undefined,
+        },
         creator: data?.author.handle,
         twitter: {
           card: 'summary_large_image',
