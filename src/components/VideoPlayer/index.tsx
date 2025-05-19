@@ -2,13 +2,10 @@
 import clsx from 'clsx';
 import { FC, TouchEventHandler, useCallback, useEffect, useState } from 'react';
 import styles from './style.module.scss';
-import Image from 'next/image';
-import Hls from 'hls.js';
 import { PostOptions } from '../PostOptions';
 
 type Props = {
   mp4URL: string;
-  hlsURL?: string;
   thumbnail?: string;
   username: string;
   handle: string;
@@ -35,7 +32,6 @@ const PlayButton = () => (
 
 export const VideoPlayer: FC<Props> = ({
   mp4URL,
-  hlsURL,
   thumbnail,
   username,
   profilePic,
@@ -130,42 +126,6 @@ export const VideoPlayer: FC<Props> = ({
   const [expandDesc, setExpandDesc] = useState(false);
 
   useEffect(() => {
-    if (!videoEl) {
-      return;
-    }
-
-    if (!hlsURL) {
-      videoEl.src = mp4URL;
-      return;
-    }
-
-    if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-      videoEl.src = hlsURL;
-    } else if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.on(Hls.Events.ERROR, function (event, data) {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls.recoverMediaError();
-              break;
-            default:
-              hls.destroy();
-              break;
-          }
-        }
-      });
-      hls.loadSource(hlsURL);
-      hls.attachMedia(videoEl);
-    } else {
-      videoEl.src = mp4URL;
-    }
-  }, [videoEl, mp4URL, hlsURL]);
-
-  useEffect(() => {
     if (!videoEl || !feedEl) return;
 
     const observer = new IntersectionObserver(
@@ -224,6 +184,7 @@ export const VideoPlayer: FC<Props> = ({
         ref={setVideoEl}
         preload="auto"
         controls={false}
+        src={mp4URL}
         loop
         onTimeUpdate={updateVideoProgress}
         className="relative min-h-full max-h-full cursor-pointer object-cover z-10 w-full"

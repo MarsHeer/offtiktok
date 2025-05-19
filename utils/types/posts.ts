@@ -11,7 +11,6 @@ export const postSchema = z.object({
     .object({
       id: z.number(),
       mp4URL: z.string(),
-      hlsURL: z.string().nullable(),
       thumbnail: z.string().nullable(),
       postId: z.number(),
     })

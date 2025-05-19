@@ -150,11 +150,6 @@ export const Feed: FC<Props> = ({ rootPost, token }) => {
           {post.video ? (
             <VideoPlayer
               mp4URL={`${process.env.NEXT_PUBLIC_API_URL}${post.video?.mp4URL}`}
-              hlsURL={
-                post.video?.hlsURL
-                  ? `${process.env.NEXT_PUBLIC_API_URL}${post.video?.hlsURL}`
-                  : undefined
-              }
               thumbnail={
                 post.video?.thumbnail
                   ? `${process.env.NEXT_PUBLIC_API_URL}${post.video?.thumbnail}`
