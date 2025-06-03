@@ -205,7 +205,7 @@ export const VideoPlayer: FC<Props> = ({
         src={mp4URL}
         onTimeUpdate={updateVideoProgress}
         className={clsx(
-          'relative min-h-full max-h-full cursor-pointer z-10 w-full',
+          'relative min-h-full max-h-full cursor-pointer z-10 w-full bg-slate-900',
           isPanoramic ? 'object-contain' : 'object-cover'
         )}
         playsInline
