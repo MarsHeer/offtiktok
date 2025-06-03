@@ -2,6 +2,7 @@
 import clsx from 'clsx';
 import { FC, TouchEventHandler, useCallback, useEffect, useState } from 'react';
 import styles from './style.module.scss';
+
 import { PostOptions } from '../PostOptions';
 
 type Props = {
@@ -43,11 +44,14 @@ export const VideoPlayer: FC<Props> = ({
   const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
+  const [isPanoramic, setIsPanoramic] = useState(false);
+
   const onVideoClick = useCallback(() => {
     if (videoEl) {
       videoEl.paused ? videoEl.play() : videoEl.pause();
     }
   }, [videoEl]);
+
   const updateVideoProgress = useCallback(() => {
     if (videoEl) {
       setVideoProgress((videoEl.currentTime / videoEl.duration) * 100);
@@ -155,6 +159,19 @@ export const VideoPlayer: FC<Props> = ({
   const [openFc, setOpenFc] = useState<() => void>(() => () => {});
   const [closeFc, setCloseFc] = useState<() => void>(() => () => {});
 
+  useEffect(() => {
+    if (videoEl) {
+      const checkAspectRatio = () => {
+        const ratio = videoEl.videoWidth / videoEl.videoHeight;
+        setIsPanoramic(ratio > 1.5); // Consider video panoramic if width is 1.5x height
+      };
+
+      videoEl.addEventListener('loadedmetadata', checkAspectRatio);
+      return () =>
+        videoEl.removeEventListener('loadedmetadata', checkAspectRatio);
+    }
+  }, [videoEl]);
+
   return (
     <div className={clsx('relative max-h-dvh w-full', styles.Container)}>
       <div
@@ -184,10 +201,13 @@ export const VideoPlayer: FC<Props> = ({
         ref={setVideoEl}
         preload="auto"
         controls={false}
-        src={mp4URL}
         loop
+        src={mp4URL}
         onTimeUpdate={updateVideoProgress}
-        className="relative min-h-full max-h-full cursor-pointer object-cover z-10 w-full"
+        className={clsx(
+          'relative min-h-full max-h-full cursor-pointer z-10 w-full',
+          isPanoramic ? 'object-contain' : 'object-cover'
+        )}
         playsInline
         poster={thumbnail}
         onPlay={() => setVideoPlaying(true)}
