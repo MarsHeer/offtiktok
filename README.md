@@ -1,3 +1,5 @@
+Support for Offtiktok has been discontinued and site has been taken offline. Feel free to post any mirrors in the issues and I will list them in the ReadMe :)
+
 # Offtiktok | The Open TikTok Client
 
 Offtiktok allows users to share tiktoks with anyone, regardless of whether they have the app or not, by adding "off" before "tiktok" in the url (e.g: [https://vm.offtiktok.com/ZGe7XpCwV/](https://vm.offtiktok.com/ZGe7XpCwV/) )
